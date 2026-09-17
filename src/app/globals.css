@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@theme {
+  --color-protein: #c084fc;
+  --color-carbs: #fb923c;
+  --color-fat: #38bdf8;
+  --color-calorie: #34d399;
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  background-color: #f7f7f5;
+}
