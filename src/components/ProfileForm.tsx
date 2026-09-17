@@ -16,7 +16,7 @@ export function ProfileForm({ initial, onSaved }: ProfileFormProps) {
   const [weightKg, setWeightKg] = useState(initial?.weightKg?.toString() ?? "65");
   const [activityLevel, setActivityLevel] = useState(initial?.activityLevel ?? "moderate");
   const [goal, setGoal] = useState(initial?.goal ?? "maintain");
-  const [dietaryPreference, setDietaryPreference] = useState(initial?.dietaryPreference ?? "none");
+  const [dietaryPreference, setDietaryPreference] = useState(initial?.dietaryPreference ?? "non_vegetarian");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -144,7 +144,7 @@ export function ProfileForm({ initial, onSaved }: ProfileFormProps) {
             value={dietaryPreference}
             onChange={(e) => setDietaryPreference(e.target.value as typeof dietaryPreference)}
           >
-            <option value="none">No restriction</option>
+            <option value="non_vegetarian">Non-vegetarian</option>
             <option value="vegetarian">Vegetarian</option>
             <option value="eggetarian">Eggetarian</option>
             <option value="vegan">Vegan</option>

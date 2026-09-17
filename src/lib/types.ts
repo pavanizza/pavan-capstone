@@ -10,7 +10,7 @@ export type ActivityLevel =
 export type Goal = "lose" | "maintain" | "gain";
 
 export type DietaryPreference =
-  | "none"
+  | "non_vegetarian"
   | "vegetarian"
   | "eggetarian"
   | "vegan"
