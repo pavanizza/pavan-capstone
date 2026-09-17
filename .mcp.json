@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "./data"]
+    },
+    "web-search": {
+      "command": "npx",
+      "args": ["-y", "wikipedia-mcp"]
+    }
+  }
+}

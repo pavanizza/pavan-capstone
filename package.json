@@ -6,13 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "agent:nutrition-fact-check": "node scripts/agent/nutrition-fact-agent.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.23.0",
+    "@modelcontextprotocol/sdk": "^1.30.0",
     "next": "^16.3.5",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
+    "wikipedia-mcp": "^1.0.3",
     "zod": "^4.6.5"
   },
   "devDependencies": {
