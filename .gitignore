@@ -1,0 +1,27 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# local data store (per-user demo data, not source)
+/data/db.json
+
+# env files
+.env
+.env*.local
+
+# misc
+.DS_Store
+*.pem
+npm-debug.log*
+.vscode/*
+!.vscode/extensions.json
+
+# local Claude Code session state (not project config)
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
