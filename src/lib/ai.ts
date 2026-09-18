@@ -1,6 +1,15 @@
 import { GoogleGenAI } from "@google/genai";
 import { z } from "zod";
 import { DietaryPreference, FoodItem, Goal, Macros } from "./types";
+import { isValidMacros } from "./nutritionValidation.mjs";
+import { readNutritionFactsCache, lookupFreshEntry } from "./nutritionFactsCache.mjs";
+
+/** Thrown when, after grounding + validation, no plausible food items are
+ * left - e.g. the description wasn't food, or the model's guesses were
+ * numerically implausible (garbage output). Handled specially by
+ * /api/meals so the user gets an actionable message instead of a generic
+ * 500 or - worse - silently-logged garbage macros. */
+export class UnrecognizableMealError extends Error {}
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 // The full (non-lite) Flash tier is currently over capacity and returning 503s;
@@ -66,16 +75,31 @@ export async function parseMealWithAI(
       `just realistic. The user's dietary preference is '${dietaryPreference}'; flag no conflicts, just estimate what they described.`,
   });
 
-  return parsed.items.map((item) => ({
-    name: item.name,
-    quantity: item.quantity,
-    macros: {
-      calories: item.calories,
-      protein: item.protein,
-      carbs: item.carbs,
-      fat: item.fat,
-    },
-  }));
+  const cache = readNutritionFactsCache(process.cwd());
+
+  const items: FoodItem[] = parsed.items.flatMap((item) => {
+    const cached = lookupFreshEntry(cache, item.name);
+    const macros: Macros = cached
+      ? { calories: cached.calories, protein: cached.proteinG, carbs: cached.carbsG, fat: cached.fatG }
+      : { calories: item.calories, protein: item.protein, carbs: item.carbs, fat: item.fat };
+
+    // Hardening: reject items whose macros are numerically implausible
+    // (e.g. a garbage/hallucinated model response) instead of silently
+    // logging them into the user's daily totals. Reuses the exact same
+    // check the Assessment-2 agent uses before trusting its own writes.
+    const validity = isValidMacros(macros);
+    if (!validity.ok) return [];
+
+    return [{ name: item.name, quantity: cached ? cached.servingSize : item.quantity, macros, grounded: !!cached }];
+  });
+
+  if (items.length === 0) {
+    throw new UnrecognizableMealError(
+      "Couldn't extract any plausible food items from that description. Try describing what you ate more specifically (e.g. \"2 rotis and dal\" instead of a single vague word).",
+    );
+  }
+
+  return items;
 }
 
 const RecommendationSchema = z.object({

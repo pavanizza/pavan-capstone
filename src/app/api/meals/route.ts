@@ -1,6 +1,6 @@
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
-import { parseMealWithAI } from "@/lib/ai";
+import { parseMealWithAI, UnrecognizableMealError } from "@/lib/ai";
 import { sumMacros } from "@/lib/nutrition";
 import { getOrCreateTodayLog, readDB, writeDB } from "@/lib/store";
 import { MealEntry } from "@/lib/types";
@@ -27,6 +27,11 @@ export async function POST(req: NextRequest) {
   try {
     items = await parseMealWithAI(description.trim(), db.profile.dietaryPreference);
   } catch (err) {
+    if (err instanceof UnrecognizableMealError) {
+      // Realistic failure case, handled gracefully: bad/garbage AI output or
+      // non-food input never reaches the user's daily totals.
+      return NextResponse.json({ error: err.message }, { status: 422 });
+    }
     const message = err instanceof Error ? err.message : "Unknown AI error";
     return NextResponse.json({ error: `Could not interpret that meal: ${message}` }, { status: 502 });
   }
