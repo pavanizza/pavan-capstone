@@ -39,6 +39,14 @@ export function MealHistory({ dayLog, onDelete }: MealHistoryProps) {
               <li key={i} className="flex justify-between">
                 <span>
                   {item.name} <span className="text-neutral-400">({item.quantity})</span>
+                  {item.grounded && (
+                    <span
+                      title="Grounded in a cited Wikipedia entry by the nutrition-fact-check agent, not just an AI guess"
+                      className="ml-1 rounded bg-emerald-50 px-1 py-0.5 text-[10px] font-medium text-emerald-700"
+                    >
+                      ✓ verified
+                    </span>
+                  )}
                 </span>
                 <span>{Math.round(item.macros.calories)} kcal</span>
               </li>

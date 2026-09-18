@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { MacroProgress } from "@/components/MacroProgress";
 import { MealHistory } from "@/components/MealHistory";
 import { MealLogForm } from "@/components/MealLogForm";
+import { NutritionFactCheckPanel } from "@/components/NutritionFactCheckPanel";
 import { ProfileForm } from "@/components/ProfileForm";
 import { RecommendationCard } from "@/components/RecommendationCard";
 import { DayLog, Recommendation, UserProfile } from "@/lib/types";
@@ -124,6 +125,10 @@ export default function Home() {
       <section className="mt-6">
         <h2 className="mb-3 text-sm font-semibold text-neutral-900">Today's meals</h2>
         {dayLog && <MealHistory dayLog={dayLog} onDelete={handleDeleteMeal} />}
+      </section>
+
+      <section className="mt-6">
+        <NutritionFactCheckPanel />
       </section>
     </main>
   );
