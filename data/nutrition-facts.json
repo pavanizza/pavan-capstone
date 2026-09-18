@@ -1,0 +1,57 @@
+{
+  "rotis": {
+    "food": "rotis",
+    "servingSize": "1 medium roti (~30g)",
+    "calories": 89,
+    "proteinG": 3.38,
+    "carbsG": 13.91,
+    "fatG": 2.24,
+    "sourceTitle": "Roti",
+    "sourceSnippet": "Plain chapati/roti, commercially prepared Nutritional value per 100 g (3.5 oz) Energy 1,245 kJ (298 kcal) Carbohydrates 46.36 g Fat 7.45 g Protein 11.25 g",
+    "verifiedAt": "2026-09-17T12:53:00.058Z"
+  },
+  "paneer curry": {
+    "food": "paneer curry",
+    "servingSize": "100 g",
+    "calories": 299,
+    "proteinG": 15.9,
+    "carbsG": 23.3,
+    "fatG": 15.5,
+    "sourceTitle": "Paneer",
+    "sourceSnippet": "Nutritional value per 100 g: Energy 299 kcal, Carbohydrates 23.3 g, Fat 15.5 g, Protein 15.9 g.",
+    "verifiedAt": "2026-09-17T12:53:02.499Z"
+  },
+  "grilled chicken breast": {
+    "food": "grilled chicken breast",
+    "servingSize": "100g",
+    "calories": 219,
+    "proteinG": 24.68,
+    "carbsG": 0,
+    "fatG": 12.56,
+    "sourceTitle": "Chicken as food",
+    "sourceSnippet": "Chicken, broiler, meat and skin, cooked, stewed Nutritional value per 100 g Energy 219 kcal Carbohydrates 0.00 g Fat 12.56 g Protein 24.68 g",
+    "verifiedAt": "2026-09-17T12:53:14.897Z"
+  },
+  "brown rice": {
+    "food": "brown rice",
+    "servingSize": "1 cup cooked (~195g)",
+    "calories": 240,
+    "proteinG": 5.3,
+    "carbsG": 50,
+    "fatG": 1.9,
+    "sourceTitle": "Brown rice",
+    "sourceSnippet": "Rice, brown, long-grain, cooked Nutritional value per 100 g Energy 123 kcal Carbohydrates 25.6 g Fat 0.97 g Protein 2.74 g",
+    "verifiedAt": "2026-09-17T12:53:18.334Z"
+  },
+  "boiled egg": {
+    "food": "boiled egg",
+    "servingSize": "1 large egg (~50g)",
+    "calories": 68,
+    "proteinG": 7,
+    "carbsG": 0,
+    "fatG": 4.5,
+    "sourceTitle": "Boiled egg",
+    "sourceSnippet": "A soft-boiled egg served in the half shell. Food energy (per 100 g serving) 136 kcal. Nutritional value (per 100 g serving) Protein 14 g, Fat 9 g, Carbohydrate 0 g.",
+    "verifiedAt": "2026-09-17T12:53:21.863Z"
+  }
+}
