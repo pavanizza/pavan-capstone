@@ -1,4 +1,4 @@
-# NutriAgent
+# Grub
 
 > Log what you ate. The AI tracks it and tells you what to eat next.
 

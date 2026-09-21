@@ -12,20 +12,20 @@ export function MacroProgress({ label, unit, consumed, target, colorClass }: Mac
   const remaining = Math.round(target - consumed);
 
   return (
-    <div className="rounded-xl border border-neutral-200 bg-white p-4">
+    <div className="rounded-xl border border-line bg-panel p-4">
       <div className="flex items-baseline justify-between">
-        <span className="text-sm font-medium text-neutral-600">{label}</span>
-        <span className="text-xs text-neutral-400">
+        <span className="text-sm font-medium text-paper">{label}</span>
+        <span className="text-xs text-faint">
           {Math.round(consumed)} / {Math.round(target)} {unit}
         </span>
       </div>
-      <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-neutral-100">
+      <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-panel-2">
         <div
           className={`h-full rounded-full ${colorClass}`}
           style={{ width: `${pct}%` }}
         />
       </div>
-      <div className="mt-1 text-xs text-neutral-500">
+      <div className="mt-1 text-xs text-faint">
         {remaining >= 0 ? `${remaining} ${unit} remaining` : `${Math.abs(remaining)} ${unit} over target`}
       </div>
     </div>

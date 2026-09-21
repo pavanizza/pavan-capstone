@@ -1,16 +1,34 @@
 @import "tailwindcss";
 
 @theme {
-  --color-protein: #c084fc;
-  --color-carbs: #fb923c;
-  --color-fat: #38bdf8;
-  --color-calorie: #34d399;
+  /* surfaces */
+  --color-ink: #0a0a12;
+  --color-panel: #14141f;
+  --color-panel-2: #1b1b2c;
+  --color-line: #2a2a40;
+
+  /* text - white only, no grey, at full brightness */
+  --color-paper: #ffffff;
+  --color-faint: #ffffff;
+
+  /* brand accents */
+  --color-violet: #8b5cf6;
+  --color-violet-strong: #7c3aed;
+  --color-azure: #3b82f6;
+  --color-azure-strong: #2563eb;
+
+  /* macro colors (blue/purple family, kept distinguishable) */
+  --color-calorie: #3b82f6;
+  --color-protein: #a855f7;
+  --color-carbs: #6366f1;
+  --color-fat: #d946ef;
 }
 
 html {
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 body {
-  background-color: #f7f7f5;
+  background-color: var(--color-ink);
+  color: var(--color-paper);
 }
