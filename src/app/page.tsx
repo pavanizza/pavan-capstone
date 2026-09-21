@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { GymGuyAvatar } from "@/components/GymGuyAvatar";
 import { MacroProgress } from "@/components/MacroProgress";
 import { MealHistory } from "@/components/MealHistory";
 import { MealLogForm } from "@/components/MealLogForm";
@@ -68,7 +69,7 @@ export default function Home() {
   }
 
   if (!loaded) {
-    return <div className="p-8 text-sm text-neutral-400">Loading...</div>;
+    return <div className="p-8 text-sm text-faint">Loading...</div>;
   }
 
   if (!profile || editingProfile) {
@@ -89,14 +90,21 @@ export default function Home() {
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-8">
-      <header className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-semibold text-neutral-900">NutriAgent</h1>
-          <p className="text-sm text-neutral-500">Log what you ate. The AI tracks it and tells you what to eat next.</p>
+      <header className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <GymGuyAvatar size={48} className="shrink-0" />
+          <div>
+            <h1 className="bg-gradient-to-r from-azure to-violet bg-clip-text text-2xl font-bold text-transparent">
+              Grub
+            </h1>
+            <p className="text-sm text-faint">
+              {profile.name ? `Hey ${profile.name} — ` : ""}Log what you ate. The AI tracks it and tells you what to eat next.
+            </p>
+          </div>
         </div>
         <button
           onClick={() => setEditingProfile(true)}
-          className="text-xs text-neutral-400 hover:text-neutral-700"
+          className="shrink-0 text-xs text-faint hover:text-paper"
         >
           Edit profile
         </button>
@@ -123,7 +131,7 @@ export default function Home() {
       </section>
 
       <section className="mt-6">
-        <h2 className="mb-3 text-sm font-semibold text-neutral-900">Today's meals</h2>
+        <h2 className="mb-3 text-sm font-semibold text-paper">Today's meals</h2>
         {dayLog && <MealHistory dayLog={dayLog} onDelete={handleDeleteMeal} />}
       </section>
 
