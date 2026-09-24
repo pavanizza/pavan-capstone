@@ -15,9 +15,10 @@ interface DashboardScreenProps {
   dayLog: DayLog;
   setDayLog: (d: DayLog) => void;
   onEditProfile: () => void;
+  onLogPhoto: () => void;
 }
 
-export function DashboardScreen({ profile, dayLog, setDayLog, onEditProfile }: DashboardScreenProps) {
+export function DashboardScreen({ profile, dayLog, setDayLog, onEditProfile, onLogPhoto }: DashboardScreenProps) {
   const [recommendation, setRecommendation] = useState<Recommendation | null>(null);
   const [recommendLoading, setRecommendLoading] = useState(false);
   const [recommendError, setRecommendError] = useState<string | null>(null);
@@ -75,6 +76,9 @@ export function DashboardScreen({ profile, dayLog, setDayLog, onEditProfile }: D
 
       <View style={styles.section}>
         <MealLogForm onSubmit={handleLogMeal} />
+        <Pressable style={styles.photoButton} onPress={onLogPhoto}>
+          <Text style={styles.photoButtonText}>📷 Or log a meal with a photo</Text>
+        </Pressable>
       </View>
 
       <View style={styles.section}>
@@ -108,5 +112,15 @@ const styles = StyleSheet.create({
   editLink: { fontSize: 12, color: colors.faint },
   macroGrid: { marginTop: 20, flexDirection: "row", flexWrap: "wrap", gap: 10 },
   section: { marginTop: 20 },
+  photoButton: {
+    marginTop: 10,
+    borderRadius: 10,
+    paddingVertical: 12,
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: colors.line,
+    backgroundColor: colors.panel2,
+  },
+  photoButtonText: { color: colors.paper, fontSize: 13, fontWeight: "600" },
   sectionTitle: { fontSize: 14, fontWeight: "700", color: colors.paper, marginBottom: 10 },
 });

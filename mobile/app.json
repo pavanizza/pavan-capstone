@@ -21,6 +21,16 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Grub uses your photos to identify meals and estimate their macros.",
+          "cameraPermission": "Grub uses your camera to photograph a meal and estimate its macros.",
+          "microphonePermission": false
+        }
+      ]
+    ]
   }
 }
