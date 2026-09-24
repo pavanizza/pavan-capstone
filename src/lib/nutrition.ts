@@ -14,11 +14,7 @@ const CALORIE_ADJUSTMENT: Record<Goal, number> = {
   gain: 400,
 };
 
-const PROTEIN_PER_KG: Record<Goal, number> = {
-  lose: 2.0,
-  maintain: 1.8,
-  gain: 2.0,
-};
+const PROTEIN_PER_KG = 1.5;
 
 const FAT_CALORIE_SHARE = 0.25;
 
@@ -39,7 +35,7 @@ export function calculateTargets(
   const tdee = calculateTDEE(bmr, profile.activityLevel);
   const calories = Math.round(tdee + CALORIE_ADJUSTMENT[profile.goal]);
 
-  const protein = Math.round(profile.weightKg * PROTEIN_PER_KG[profile.goal]);
+  const protein = Math.round(profile.weightKg * PROTEIN_PER_KG);
   const fatCalories = calories * FAT_CALORIE_SHARE;
   const fat = Math.round(fatCalories / 9);
   const remainingCalories = calories - protein * 4 - fatCalories;
