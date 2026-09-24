@@ -25,3 +25,4 @@ npm-debug.log*
 # local Claude Code session state (not project config)
 .claude/settings.local.json
 .claude/scheduled_tasks.lock
+*.tsbuildinfo
