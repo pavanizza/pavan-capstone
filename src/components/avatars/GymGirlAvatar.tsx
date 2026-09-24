@@ -3,13 +3,13 @@ interface AvatarProps {
   className?: string;
 }
 
-/** Female flexing gym mascot - same muscular-arm pose as GymGuyAvatar, with a
- * ponytail, headband, and sports-bra top to read as a distinct character. */
+/** "Baddie" mascot - a pretty, slender character with long flowing hair,
+ * big lashed eyes, and a cute top. No muscular/flexing pose. */
 export function GymGirlAvatar({ size = 96, className = "" }: AvatarProps) {
-  const skin = "#e8a373";
-  const skinShade = "#cf8a5c";
+  const skin = "#f0b088";
   const ink = "#1b1b2c";
-  const accent = "#ec4899";
+  const pink = "#ec4899";
+  const lips = "#e11d6e";
 
   return (
     <svg
@@ -18,7 +18,7 @@ export function GymGirlAvatar({ size = 96, className = "" }: AvatarProps) {
       viewBox="0 0 120 120"
       className={className}
       role="img"
-      aria-label="Cartoon avatar of a flexing gym woman"
+      aria-label="Cartoon avatar of a pretty woman with long hair"
     >
       <defs>
         <linearGradient id="avatarBg-gymGirl" x1="0" y1="0" x2="1" y2="1">
@@ -29,53 +29,54 @@ export function GymGirlAvatar({ size = 96, className = "" }: AvatarProps) {
 
       <circle cx="60" cy="60" r="58" fill="url(#avatarBg-gymGirl)" />
 
-      {/* arms, flexed double-bicep pose */}
-      {[
-        { cx: 40, cy: 56, r: 8 },
-        { cx: 28, cy: 52, r: 7 },
-        { cx: 18, cy: 46, r: 8 },
-        { cx: 20, cy: 36, r: 8 },
-        { cx: 28, cy: 30, r: 7 },
-        { cx: 80, cy: 56, r: 8 },
-        { cx: 92, cy: 52, r: 7 },
-        { cx: 102, cy: 46, r: 8 },
-        { cx: 100, cy: 36, r: 8 },
-        { cx: 92, cy: 30, r: 7 },
-      ].map((c, i) => (
-        <circle key={i} cx={c.cx} cy={c.cy} r={c.r} fill={skin} />
-      ))}
-      <circle cx="16" cy="44" r="2.6" fill="#ffffff" opacity="0.25" />
-      <circle cx="104" cy="44" r="2.6" fill="#ffffff" opacity="0.25" />
+      {/* long hair, behind everything else */}
+      <path
+        d="M34 34 Q30 70 40 98 Q46 100 46 92 Q40 66 44 38 Q60 26 76 38 Q80 66 74 92 Q74 100 80 98 Q90 70 86 34 Q80 12 60 12 Q40 12 34 34 Z"
+        fill={ink}
+      />
 
-      {/* torso + sports-bra top */}
-      <rect x="39" y="50" width="42" height="32" rx="14" fill={skin} />
-      <path d="M39 56 Q60 64 81 56 L81 68 Q60 76 39 68 Z" fill={accent} />
+      {/* slender arms, relaxed at the sides */}
+      <rect x="35" y="62" width="8" height="22" rx="4" fill={skin} transform="rotate(4 35 62)" />
+      <rect x="77" y="62" width="8" height="22" rx="4" fill={skin} transform="rotate(-4 77 62)" />
 
-      {/* waistband */}
-      <rect x="39" y="74" width="42" height="10" rx="4" fill={accent} />
+      {/* torso: cute top */}
+      <rect x="45" y="56" width="30" height="28" rx="14" fill={pink} />
+      <path d="M45 60 Q60 68 75 60 L75 66 Q60 74 45 66 Z" fill="#f9a8d4" />
 
       {/* neck */}
-      <rect x="55" y="44" width="10" height="8" fill={skin} />
-
-      {/* ponytail (behind head) */}
-      <path d="M74 20 Q88 24 84 42 Q80 44 78 40 Q80 26 70 20 Z" fill={ink} />
-
-      {/* hair */}
-      <circle cx="60" cy="24" r="14" fill={ink} />
-      <path d="M46 24 Q60 12 74 24 Q74 30 70 28 Q60 20 50 28 Q46 30 46 24 Z" fill={ink} />
-
-      {/* headband */}
-      <rect x="47" y="21" width="26" height="5" rx="2.5" fill={accent} />
+      <rect x="56" y="48" width="8" height="9" fill={skin} />
 
       {/* face */}
-      <circle cx="60" cy="33" r="13" fill={skin} />
-      <path d="M52 29 Q54.5 27.5 57 29" stroke={ink} strokeWidth="1.4" fill="none" strokeLinecap="round" />
-      <path d="M63 29 Q65.5 27.5 68 29" stroke={ink} strokeWidth="1.4" fill="none" strokeLinecap="round" />
-      <circle cx="55" cy="32" r="1.5" fill={ink} />
-      <circle cx="65" cy="32" r="1.5" fill={ink} />
-      <path d="M54 38 Q60 42 66 38" stroke={ink} strokeWidth="2" fill="none" strokeLinecap="round" />
-      <circle cx="52" cy="36" r="2" fill={skinShade} opacity="0.5" />
-      <circle cx="68" cy="36" r="2" fill={skinShade} opacity="0.5" />
+      <circle cx="60" cy="36" r="12.5" fill={skin} />
+
+      {/* bangs */}
+      <path d="M48 30 Q60 20 72 30 Q72 24 60 22 Q48 24 48 30 Z" fill={ink} />
+
+      {/* hair bow */}
+      <path
+        d="M78 24 L84 20 L83 26 L88 24 L84 30 L86 34 L80 31 L79 35 L76 30 Z"
+        fill="#f9a8d4"
+      />
+      <circle cx="80.5" cy="27" r="1.6" fill={pink} />
+
+      {/* big lashed eyes */}
+      <ellipse cx="55" cy="36" rx="2.6" ry="3.2" fill={ink} />
+      <ellipse cx="65" cy="36" rx="2.6" ry="3.2" fill={ink} />
+      <circle cx="54" cy="34.5" r="0.8" fill="#ffffff" />
+      <circle cx="64" cy="34.5" r="0.8" fill="#ffffff" />
+      <path d="M51 32 L48.5 29.5 M52.5 31 L51 28 M54.5 30.5 L54 27.5" stroke={ink} strokeWidth="1" strokeLinecap="round" />
+      <path d="M69 32 L71.5 29.5 M67.5 31 L69 28 M65.5 30.5 L66 27.5" stroke={ink} strokeWidth="1" strokeLinecap="round" />
+
+      {/* eyebrows */}
+      <path d="M50.5 29 Q54.5 27 58 29" stroke={ink} strokeWidth="1.2" fill="none" strokeLinecap="round" />
+      <path d="M62 29 Q65.5 27 69.5 29" stroke={ink} strokeWidth="1.2" fill="none" strokeLinecap="round" />
+
+      {/* blush */}
+      <circle cx="51" cy="40" r="2.2" fill={pink} opacity="0.45" />
+      <circle cx="69" cy="40" r="2.2" fill={pink} opacity="0.45" />
+
+      {/* lips */}
+      <path d="M56 43 Q60 46 64 43 Q60 45.5 56 43 Z" fill={lips} />
     </svg>
   );
 }
