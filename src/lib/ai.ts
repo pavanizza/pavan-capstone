@@ -11,12 +11,33 @@ import { readNutritionFactsCache, lookupFreshEntry } from "./nutritionFactsCache
  * 500 or - worse - silently-logged garbage macros. */
 export class UnrecognizableMealError extends Error {}
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 // The full (non-lite) Flash tier is currently over capacity and returning 503s;
 // the Lite model handles both tasks fine and responds reliably. Override via
 // env if you want to try a heavier model for recommendations later.
 const PARSE_MODEL = process.env.GEMINI_MODEL_PARSE || "gemini-flash-lite-latest";
 const RECOMMEND_MODEL = process.env.GEMINI_MODEL_RECOMMEND || "gemini-flash-lite-latest";
+
+let ai: GoogleGenAI | null = null;
+
+/** Lazily constructs the Gemini client, failing loudly and specifically if
+ * GEMINI_API_KEY isn't set. Without this check, the SDK silently falls
+ * back to trying Google Cloud Application Default Credentials instead of
+ * an API key, which surfaces as a confusing
+ * "Could not load the default credentials" error that has nothing to do
+ * with the actual problem (a missing/unset env var - e.g. forgetting to
+ * add GEMINI_API_KEY in a hosting provider's dashboard). */
+function getClient(): GoogleGenAI {
+  if (!process.env.GEMINI_API_KEY) {
+    throw new Error(
+      "GEMINI_API_KEY is not set. Add it to your environment (.env locally, or your hosting " +
+        "provider's environment variables in production) and restart/redeploy.",
+    );
+  }
+  if (!ai) {
+    ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+  }
+  return ai;
+}
 
 const MealParseSchema = z.object({
   items: z
@@ -41,7 +62,7 @@ async function generateStructured<T>(input: {
   contents: string;
   schema: z.ZodType<T>;
 }): Promise<T> {
-  const response = await ai.models.generateContent({
+  const response = await getClient().models.generateContent({
     model: input.model,
     contents: input.contents,
     config: {
