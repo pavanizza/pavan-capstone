@@ -111,6 +111,12 @@ export function getTodaysFoodNames(projectRoot) {
 export async function runNutritionFactCheck({ projectRoot, foods, model, onStep }) {
   const log = onStep ?? (() => {});
   const MODEL = model || process.env.GEMINI_MODEL_PARSE || "gemini-flash-lite-latest";
+  if (!process.env.GEMINI_API_KEY) {
+    // Fail clearly here too - without this, the SDK falls back to trying
+    // Google Cloud Application Default Credentials and throws a confusing
+    // "Could not load the default credentials" error instead.
+    throw new Error("GEMINI_API_KEY is not set. Add it to your environment and restart/redeploy.");
+  }
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
   const skillInstructions = loadSkillInstructions(projectRoot);
   const { fsClient, searchClient } = await getClients(projectRoot);
