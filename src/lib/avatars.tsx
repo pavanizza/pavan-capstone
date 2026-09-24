@@ -16,7 +16,7 @@ interface AvatarComponentProps {
 
 export const AVATARS: Record<AvatarId, { label: string; Component: ComponentType<AvatarComponentProps> }> = {
   gym_guy: { label: "Chad", Component: GymGuyAvatar },
-  gym_girl: { label: "Annabel", Component: GymGirlAvatar },
+  gym_girl: { label: "Baddie", Component: GymGirlAvatar },
   runner: { label: "Goggins", Component: RunnerAvatar },
   yogi: { label: "Chud", Component: YogiAvatar },
   chef: { label: "Rizzler", Component: RizzlerAvatar },
