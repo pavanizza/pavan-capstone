@@ -5,6 +5,8 @@ import { ApiError, getMeals, getProfile } from "./src/lib/api";
 import { colors } from "./src/lib/theme";
 import { DayLog, UserProfile } from "./src/lib/types";
 import { DashboardScreen } from "./src/components/DashboardScreen";
+import { HomeScreen } from "./src/components/HomeScreen";
+import { PhotoLogScreen } from "./src/components/PhotoLogScreen";
 import { ProfileFormScreen } from "./src/components/ProfileFormScreen";
 
 export default function App() {
@@ -13,6 +15,8 @@ export default function App() {
   const [loaded, setLoaded] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [editingProfile, setEditingProfile] = useState(false);
+  const [showHome, setShowHome] = useState(true);
+  const [showPhotoLog, setShowPhotoLog] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -46,6 +50,15 @@ export default function App() {
     );
   }
 
+  if (showHome) {
+    return (
+      <View style={{ flex: 1, backgroundColor: colors.ink }}>
+        <HomeScreen hasProfile={!!profile} onContinue={() => setShowHome(false)} />
+        <StatusBar style="light" />
+      </View>
+    );
+  }
+
   if (!profile || editingProfile) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.ink }}>
@@ -61,6 +74,15 @@ export default function App() {
     );
   }
 
+  if (showPhotoLog) {
+    return (
+      <View style={{ flex: 1, backgroundColor: colors.ink }}>
+        <PhotoLogScreen onLogged={setDayLog} onClose={() => setShowPhotoLog(false)} />
+        <StatusBar style="light" />
+      </View>
+    );
+  }
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.ink }}>
       <DashboardScreen
@@ -68,6 +90,7 @@ export default function App() {
         dayLog={dayLog ?? { date: "", meals: [], totals: { calories: 0, protein: 0, carbs: 0, fat: 0 } }}
         setDayLog={setDayLog}
         onEditProfile={() => setEditingProfile(true)}
+        onLogPhoto={() => setShowPhotoLog(true)}
       />
       <StatusBar style="light" />
     </View>

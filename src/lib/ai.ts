@@ -1,4 +1,4 @@
-import { GoogleGenAI } from "@google/genai";
+import { ContentListUnion, GoogleGenAI } from "@google/genai";
 import { z } from "zod";
 import { DietaryPreference, FoodItem, Goal, Macros } from "./types";
 import { isValidMacros } from "./nutritionValidation.mjs";
@@ -59,7 +59,7 @@ const MealParseSchema = z.object({
 async function generateStructured<T>(input: {
   model: string;
   systemInstruction: string;
-  contents: string;
+  contents: ContentListUnion;
   schema: z.ZodType<T>;
 }): Promise<T> {
   const response = await getClient().models.generateContent({
@@ -79,6 +79,43 @@ async function generateStructured<T>(input: {
   return input.schema.parse(JSON.parse(response.text));
 }
 
+type RawParsedItem = { name: string; quantity: string; calories: number; protein: number; carbs: number; fat: number };
+
+/** Shared by both text- and photo-based meal parsing: grounds each item
+ * against the cited nutrition-facts cache when available, rejects
+ * numerically implausible macros (same check the Assessment-2 agent uses
+ * before trusting its own cache writes), and refuses to return an empty
+ * result silently - callers get a clear, catchable error instead. */
+function groundAndValidateItems(rawItems: RawParsedItem[], notFoodMessage: string): FoodItem[] {
+  const cache = readNutritionFactsCache(process.cwd());
+
+  const items: FoodItem[] = rawItems.flatMap((item) => {
+    const cached = lookupFreshEntry(cache, item.name);
+    const macros: Macros = cached
+      ? { calories: cached.calories, protein: cached.proteinG, carbs: cached.carbsG, fat: cached.fatG }
+      : { calories: item.calories, protein: item.protein, carbs: item.carbs, fat: item.fat };
+
+    const validity = isValidMacros(macros);
+    if (!validity.ok) return [];
+
+    return [{ name: item.name, quantity: cached ? cached.servingSize : item.quantity, macros, grounded: !!cached }];
+  });
+
+  if (items.length === 0) {
+    throw new UnrecognizableMealError(notFoodMessage);
+  }
+
+  return items;
+}
+
+const MEAL_PARSE_SYSTEM_INSTRUCTION = (dietaryPreference: DietaryPreference) =>
+  "You are a nutrition estimation assistant specializing in Indian home-cooked meals as well as " +
+  "common international foods. Split the meal into distinct food items. When an exact quantity " +
+  "isn't given, assume a typical single serving size for that food. Estimate calories, protein, " +
+  "carbohydrates, and fat as reasonably as possible using standard nutrition references - your " +
+  "estimates do not need to be lab-precise, just realistic. The user's dietary preference is " +
+  `'${dietaryPreference}'; flag no conflicts, just estimate what they described.`;
+
 export async function parseMealWithAI(
   description: string,
   dietaryPreference: DietaryPreference,
@@ -87,40 +124,39 @@ export async function parseMealWithAI(
     model: PARSE_MODEL,
     schema: MealParseSchema,
     contents: description,
-    systemInstruction:
-      "You are a nutrition estimation assistant specializing in Indian home-cooked meals as well as " +
-      "common international foods. Given a natural-language description of a meal, split it into " +
-      "distinct food items. When the user does not give an exact quantity, assume a typical single " +
-      "serving size for that food. Estimate calories, protein, carbohydrates, and fat as reasonably " +
-      "as possible using standard nutrition references - your estimates do not need to be lab-precise, " +
-      `just realistic. The user's dietary preference is '${dietaryPreference}'; flag no conflicts, just estimate what they described.`,
+    systemInstruction: MEAL_PARSE_SYSTEM_INSTRUCTION(dietaryPreference),
   });
 
-  const cache = readNutritionFactsCache(process.cwd());
+  return groundAndValidateItems(
+    parsed.items,
+    "Couldn't extract any plausible food items from that description. Try describing what you ate more specifically (e.g. \"2 rotis and dal\" instead of a single vague word).",
+  );
+}
 
-  const items: FoodItem[] = parsed.items.flatMap((item) => {
-    const cached = lookupFreshEntry(cache, item.name);
-    const macros: Macros = cached
-      ? { calories: cached.calories, protein: cached.proteinG, carbs: cached.carbsG, fat: cached.fatG }
-      : { calories: item.calories, protein: item.protein, carbs: item.carbs, fat: item.fat };
-
-    // Hardening: reject items whose macros are numerically implausible
-    // (e.g. a garbage/hallucinated model response) instead of silently
-    // logging them into the user's daily totals. Reuses the exact same
-    // check the Assessment-2 agent uses before trusting its own writes.
-    const validity = isValidMacros(macros);
-    if (!validity.ok) return [];
-
-    return [{ name: item.name, quantity: cached ? cached.servingSize : item.quantity, macros, grounded: !!cached }];
+export async function parseMealPhotoWithAI(
+  imageBase64: string,
+  mimeType: string,
+  dietaryPreference: DietaryPreference,
+): Promise<FoodItem[]> {
+  const parsed = await generateStructured({
+    model: PARSE_MODEL,
+    schema: MealParseSchema,
+    contents: [
+      {
+        text:
+          "Identify every distinct food item visible in this photo of a meal and estimate its serving " +
+          "size and macros. " +
+          MEAL_PARSE_SYSTEM_INSTRUCTION(dietaryPreference),
+      },
+      { inlineData: { data: imageBase64, mimeType } },
+    ],
+    systemInstruction: MEAL_PARSE_SYSTEM_INSTRUCTION(dietaryPreference),
   });
 
-  if (items.length === 0) {
-    throw new UnrecognizableMealError(
-      "Couldn't extract any plausible food items from that description. Try describing what you ate more specifically (e.g. \"2 rotis and dal\" instead of a single vague word).",
-    );
-  }
-
-  return items;
+  return groundAndValidateItems(
+    parsed.items,
+    "Couldn't identify any food in that photo. Try a clearer, well-lit photo taken directly above the plate.",
+  );
 }
 
 const RecommendationSchema = z.object({

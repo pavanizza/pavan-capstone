@@ -1,4 +1,4 @@
-import { DayLog, NutritionFactCheckReport, Recommendation, UserProfile } from "./types";
+import { DayLog, MealEntry, NutritionFactCheckReport, Recommendation, UserProfile } from "./types";
 
 // Set with EXPO_PUBLIC_API_URL in mobile/.env (Expo inlines EXPO_PUBLIC_*
 // vars at build time - no extra config needed). Must be an address your
@@ -48,6 +48,13 @@ export function logMeal(description: string) {
   return request<{ dayLog: DayLog }>("/api/meals", {
     method: "POST",
     body: JSON.stringify({ description }),
+  });
+}
+
+export function logMealPhoto(imageBase64: string, mimeType: string) {
+  return request<{ meal: MealEntry; dayLog: DayLog }>("/api/meals/photo", {
+    method: "POST",
+    body: JSON.stringify({ imageBase64, mimeType }),
   });
 }
 
