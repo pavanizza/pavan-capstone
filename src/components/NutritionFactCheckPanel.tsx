@@ -35,7 +35,7 @@ export function NutritionFactCheckPanel() {
         <div>
           <h2 className="text-sm font-semibold text-paper">Nutrition fact-check agent</h2>
           <p className="mt-0.5 text-xs text-faint">
-            Grounds today&apos;s logged foods against cited Wikipedia data instead of pure AI guesses (Assessment 2&apos;s
+            Grounds today&apos;s logged foods against cited, AI-verified data instead of pure AI guesses (Assessment 2&apos;s
             perceive → reason → act → observe agent, wired into this app).
           </p>
         </div>

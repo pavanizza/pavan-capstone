@@ -33,6 +33,9 @@ export interface UserProfile {
   goal: Goal;
   dietaryPreference: DietaryPreference;
   targets: Macros;
+  /** Which mascot the user picked in the profile form; defaults to "gym_guy"
+   * (via getAvatarComponent) for profiles saved before this field existed. */
+  avatarId?: string;
 }
 
 export interface FoodItem {
