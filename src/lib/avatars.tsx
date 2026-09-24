@@ -15,11 +15,11 @@ interface AvatarComponentProps {
 }
 
 export const AVATARS: Record<AvatarId, { label: string; Component: ComponentType<AvatarComponentProps> }> = {
-  gym_guy: { label: "Gym guy", Component: GymGuyAvatar },
-  gym_girl: { label: "Gym girl", Component: GymGirlAvatar },
+  gym_guy: { label: "Chad", Component: GymGuyAvatar },
+  gym_girl: { label: "Annabel", Component: GymGirlAvatar },
   runner: { label: "Runner", Component: RunnerAvatar },
-  yogi: { label: "Yogi", Component: YogiAvatar },
-  chef: { label: "Chef", Component: ChefAvatar },
+  yogi: { label: "Chud", Component: YogiAvatar },
+  chef: { label: "Rizzler", Component: ChefAvatar },
 };
 
 export function isAvatarId(value: unknown): value is AvatarId {
