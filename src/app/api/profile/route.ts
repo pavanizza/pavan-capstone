@@ -20,6 +20,7 @@ export async function POST(req: NextRequest) {
     activityLevel: body.activityLevel,
     goal: body.goal,
     dietaryPreference: body.dietaryPreference,
+    avatarId: typeof body.avatarId === "string" ? body.avatarId : undefined,
     targets: { calories: 0, protein: 0, carbs: 0, fat: 0 },
   };
 

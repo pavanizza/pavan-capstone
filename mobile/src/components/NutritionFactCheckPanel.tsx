@@ -29,7 +29,7 @@ export function NutritionFactCheckPanel() {
         <View style={{ flex: 1 }}>
           <Text style={styles.title}>Nutrition fact-check agent</Text>
           <Text style={styles.subtitle}>
-            Grounds today&apos;s logged foods against cited Wikipedia data instead of pure AI guesses.
+            Grounds today&apos;s logged foods against cited, AI-verified data instead of pure AI guesses.
           </Text>
         </View>
         <Pressable onPress={handleRun} disabled={loading} style={[styles.button, loading && styles.buttonDisabled]}>

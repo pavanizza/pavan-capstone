@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { GymGuyAvatar } from "@/components/GymGuyAvatar";
+import { AvatarPicker } from "@/components/AvatarPicker";
+import { AvatarId, DEFAULT_AVATAR_ID, isAvatarId } from "@/lib/avatars";
 import { UserProfile } from "@/lib/types";
 
 interface ProfileFormProps {
@@ -18,6 +19,9 @@ export function ProfileForm({ initial, onSaved }: ProfileFormProps) {
   const [activityLevel, setActivityLevel] = useState(initial?.activityLevel ?? "moderate");
   const [goal, setGoal] = useState(initial?.goal ?? "maintain");
   const [dietaryPreference, setDietaryPreference] = useState(initial?.dietaryPreference ?? "non_vegetarian");
+  const [avatarId, setAvatarId] = useState<AvatarId>(
+    isAvatarId(initial?.avatarId) ? initial.avatarId : DEFAULT_AVATAR_ID,
+  );
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,7 +33,7 @@ export function ProfileForm({ initial, onSaved }: ProfileFormProps) {
       const res = await fetch("/api/profile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, age, sex, heightCm, weightKg, activityLevel, goal, dietaryPreference }),
+        body: JSON.stringify({ name, age, sex, heightCm, weightKg, activityLevel, goal, dietaryPreference, avatarId }),
       });
       if (!res.ok) throw new Error("Failed to save profile.");
       const data = await res.json();
@@ -44,8 +48,8 @@ export function ProfileForm({ initial, onSaved }: ProfileFormProps) {
   return (
     <div className="mx-auto max-w-lg rounded-2xl border border-line bg-panel p-6 shadow-sm shadow-black/40">
       <div className="flex flex-col items-center gap-2 text-center">
-        <GymGuyAvatar size={96} />
-        <p className="text-xs text-faint">Your Grub avatar</p>
+        <p className="text-xs text-faint">Choose your Grub avatar</p>
+        <AvatarPicker value={avatarId} onChange={setAvatarId} />
       </div>
 
       <h1 className="mt-4 text-xl font-semibold text-paper">Set up your nutrition profile</h1>

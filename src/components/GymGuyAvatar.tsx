@@ -22,13 +22,13 @@ export function GymGuyAvatar({ size = 96, className = "" }: GymGuyAvatarProps) {
       aria-label="Cartoon avatar of a flexing gym guy with abs"
     >
       <defs>
-        <linearGradient id="avatarBg" x1="0" y1="0" x2="1" y2="1">
+        <linearGradient id="avatarBg-gymGuy" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor="#3b82f6" />
           <stop offset="100%" stopColor="#8b5cf6" />
         </linearGradient>
       </defs>
 
-      <circle cx="60" cy="60" r="58" fill="url(#avatarBg)" />
+      <circle cx="60" cy="60" r="58" fill="url(#avatarBg-gymGuy)" />
 
       {/* arms (flexed, double-bicep pose) - drawn behind the torso so shoulders connect cleanly */}
       {[

@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { GymGuyAvatar } from "@/components/GymGuyAvatar";
 import { MacroProgress } from "@/components/MacroProgress";
 import { MealHistory } from "@/components/MealHistory";
 import { MealLogForm } from "@/components/MealLogForm";
 import { NutritionFactCheckPanel } from "@/components/NutritionFactCheckPanel";
 import { ProfileForm } from "@/components/ProfileForm";
 import { RecommendationCard } from "@/components/RecommendationCard";
+import { getAvatarComponent } from "@/lib/avatars";
 import { DayLog, Recommendation, UserProfile } from "@/lib/types";
 
 export default function Home() {
@@ -87,19 +87,17 @@ export default function Home() {
   }
 
   const totals = dayLog?.totals ?? { calories: 0, protein: 0, carbs: 0, fat: 0 };
+  const Avatar = getAvatarComponent(profile.avatarId);
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-8">
       <header className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <GymGuyAvatar size={48} className="shrink-0" />
+          <Avatar size={48} className="shrink-0" />
           <div>
             <h1 className="bg-gradient-to-r from-azure to-violet bg-clip-text text-2xl font-bold text-transparent">
               Grub
             </h1>
-            <p className="text-sm text-faint">
-              {profile.name ? `Hey ${profile.name} — ` : ""}Log what you ate. The AI tracks it and tells you what to eat next.
-            </p>
           </div>
         </div>
         <button
