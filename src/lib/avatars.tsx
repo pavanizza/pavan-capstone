@@ -1,7 +1,7 @@
 import { ComponentType } from "react";
 import { GymGuyAvatar } from "@/components/GymGuyAvatar";
-import { ChefAvatar } from "@/components/avatars/ChefAvatar";
 import { GymGirlAvatar } from "@/components/avatars/GymGirlAvatar";
+import { RizzlerAvatar } from "@/components/avatars/RizzlerAvatar";
 import { RunnerAvatar } from "@/components/avatars/RunnerAvatar";
 import { YogiAvatar } from "@/components/avatars/YogiAvatar";
 
@@ -17,9 +17,9 @@ interface AvatarComponentProps {
 export const AVATARS: Record<AvatarId, { label: string; Component: ComponentType<AvatarComponentProps> }> = {
   gym_guy: { label: "Chad", Component: GymGuyAvatar },
   gym_girl: { label: "Annabel", Component: GymGirlAvatar },
-  runner: { label: "Runner", Component: RunnerAvatar },
+  runner: { label: "Goggins", Component: RunnerAvatar },
   yogi: { label: "Chud", Component: YogiAvatar },
-  chef: { label: "Rizzler", Component: ChefAvatar },
+  chef: { label: "Rizzler", Component: RizzlerAvatar },
 };
 
 export function isAvatarId(value: unknown): value is AvatarId {
