@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Grub",
-  description: "Log what you ate. The AI tracks it and tells you what to eat next.",
+  description: "An agent that reads what you just ate and tells you exactly what to eat next.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
