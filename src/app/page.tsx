@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { IntroScreen } from "@/components/IntroScreen";
 import { MacroProgress } from "@/components/MacroProgress";
 import { MealHistory } from "@/components/MealHistory";
 import { MealLogForm } from "@/components/MealLogForm";
@@ -18,6 +19,7 @@ export default function Home() {
   const [recommendError, setRecommendError] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [editingProfile, setEditingProfile] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -70,6 +72,14 @@ export default function Home() {
 
   if (!loaded) {
     return <div className="p-8 text-sm text-faint">Loading...</div>;
+  }
+
+  if (!profile && showIntro) {
+    return (
+      <main className="px-4 py-10">
+        <IntroScreen onGetStarted={() => setShowIntro(false)} />
+      </main>
+    );
   }
 
   if (!profile || editingProfile) {
