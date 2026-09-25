@@ -3,7 +3,7 @@ interface AvatarProps {
   className?: string;
 }
 
-/** "Baddie" mascot - slender hourglass silhouette in a fit-and-flare dress,
+/** "Diva" mascot - slender hourglass silhouette in a fit-and-flare dress,
  * long wavy hair, earrings, and a softer, clearly feminine face (big
  * almond eyes with lashes, arched brows, fuller lips). No muscles/flexing. */
 export function GymGirlAvatar({ size = 96, className = "" }: AvatarProps) {
