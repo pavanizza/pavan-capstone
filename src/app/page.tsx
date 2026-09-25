@@ -74,7 +74,7 @@ export default function Home() {
     return <div className="p-8 text-sm text-faint">Loading...</div>;
   }
 
-  if (!profile && showIntro) {
+  if (showIntro) {
     return (
       <main className="px-4 py-10">
         <IntroScreen onGetStarted={() => setShowIntro(false)} />
@@ -106,7 +106,7 @@ export default function Home() {
           <Avatar size={48} className="shrink-0" />
           <div>
             <h1 className="bg-gradient-to-r from-azure to-violet bg-clip-text text-2xl font-bold text-transparent">
-              Grub
+              Grub.
             </h1>
           </div>
         </div>

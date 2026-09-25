@@ -13,7 +13,7 @@ export function IntroScreen({ onGetStarted }: IntroScreenProps) {
 
       <div>
         <h1 className="bg-gradient-to-r from-azure to-violet bg-clip-text text-4xl font-bold text-transparent">
-          Grub
+          Grub.
         </h1>
         <p className="mt-2 text-sm text-faint">
           An agent that reads what you just ate and tells you exactly what to eat next.
