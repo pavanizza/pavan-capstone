@@ -4,13 +4,6 @@ interface IntroScreenProps {
   onGetStarted: () => void;
 }
 
-const HIGHLIGHTS = [
-  "Describe a meal in plain language, or snap a photo - AI estimates calories and macros.",
-  "Personalized daily calorie and macro targets, calculated from your profile.",
-  "Nutrition facts are checked against real, cited sources - not just AI guesses.",
-  "Get an AI-suggested next meal that fills whatever you're still short on.",
-];
-
 /** First screen a brand-new user sees, before the profile setup form.
  * Purely a welcome/orientation step - doesn't touch profile state itself. */
 export function IntroScreen({ onGetStarted }: IntroScreenProps) {
@@ -26,15 +19,6 @@ export function IntroScreen({ onGetStarted }: IntroScreenProps) {
           Log what you ate. The AI tracks it and tells you what to eat next.
         </p>
       </div>
-
-      <ul className="w-full space-y-3 text-left text-sm text-faint">
-        {HIGHLIGHTS.map((text) => (
-          <li key={text} className="flex items-start gap-2">
-            <span className="mt-0.5 text-violet">&bull;</span>
-            <span>{text}</span>
-          </li>
-        ))}
-      </ul>
 
       <button
         onClick={onGetStarted}
