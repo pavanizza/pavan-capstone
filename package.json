@@ -12,6 +12,7 @@
   "dependencies": {
     "@google/genai": "^2.23.0",
     "@modelcontextprotocol/sdk": "^1.30.0",
+    "@modelcontextprotocol/server-filesystem": "^2026.8.31",
     "next": "^16.3.5",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
