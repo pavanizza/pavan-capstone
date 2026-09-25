@@ -16,7 +16,7 @@ export function IntroScreen({ onGetStarted }: IntroScreenProps) {
           Grub
         </h1>
         <p className="mt-2 text-sm text-faint">
-          Log what you ate. The AI tracks it and tells you what to eat next.
+          An agent that reads what you just ate and tells you exactly what to eat next.
         </p>
       </div>
 
